@@ -21,12 +21,15 @@
 
 - **getTiebaImageWithGui.py**
 
-在前者的基础上添加了基于PyQt5的GUI支持。
+  在前者的基础上添加了基于PyQt5的GUI支持。
+
+  **bug**: 在下载线程中清空TextEdit会导致程序停止运行，待解决
 
 To-do
 
-- [ ] 完成在GUI界面中显示log以及getTiebaImage.py类中的错误提示
-- [ ] 添加线程支持，防止图片下载时候界面假死
+- [x] 完成在GUI界面中显示log以及getTiebaImage.py类中的错误提示
+- [x] 添加线程支持，防止图片下载时候界面假死
+- [ ] 修复bug
 - [ ] 界面美化
 
 

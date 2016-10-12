@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import os
 import sys
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal
 import threading
 
 browser_header = {
@@ -19,21 +20,23 @@ browser_header = {
 
 
 class UI(QWidget):
-
+    # labels
     _label_path = None
     _label_URL = None
     _label_log = None
-
+    # buttons
     _button_explore = None
     _button_download = None
-
+    # textboxes
     _text_path = None
     _text_URL = None
     _text_log = None
-
+    # parameters
     _url = None
     _header = None
     _path = None
+    # signal
+    _clear_signal = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -73,10 +76,12 @@ class UI(QWidget):
         self.setWindowTitle('Tieba Image Downloader')
         self.show()
 
+    # slot
     def _action_explore(self):
         path_name = QFileDialog.getExistingDirectory(self,"选择要保存到的文件夹", "C:/")
         self._text_path.setText(path_name)
 
+    # slot
     def _action_download(self):
         self._path = self._text_path.text()
         self._url = self._text_URL.text()
@@ -86,6 +91,10 @@ class UI(QWidget):
             self._path += r'/'
             thread_download = threading.Thread(target=self.download_image, name='th_download')
             thread_download.start()
+
+    # slot
+    def _action_clear_log(self):
+        self._text_log.clear()
 
     def download_image(self):
         max_page = self._get_max_page()
@@ -113,9 +122,6 @@ class UI(QWidget):
         pics = soup.find_all("img", {"class": "BDE_Image", "pic_type": "0"})
         if len(pics) == 0:
             # 及时清空textEdit中的内容
-            if len(self._text_log.toPlainText()) >= 2000:
-                
-                self._text_log.clear()
             self._text_log.append("帖子当前页中未找到图片")
         else:
             for i in range(0, len(pics)):
@@ -128,6 +134,11 @@ class UI(QWidget):
                     os.mkdir(img_save_path)
                 with open(img_save_path + '/' + str(i) + ".jpg", 'wb') as f:
                     f.write(img)
+                    # 利用PyQt的信号和槽机制让主线程清空 textEdit中的内容
+                    # 防止子线程修改UI导致程序奔溃
+                    if len(self._text_log.toPlainText()) >= 2000:
+                        self._clear_signal.connect(self._action_clear_log)
+                        self._clear_signal.emit()
                     self._text_log.append(img_url + ' saved')
 
 

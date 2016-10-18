@@ -119,7 +119,7 @@ class UI(QWidget):
     def _get_image(self, page_url, page):
         html = requests.get(page_url, headers=self._header).content.decode('UTF-8')
         soup = BeautifulSoup(html, 'lxml')
-        pics = soup.find_all("img", {"class": "BDE_Image", "pic_type": "0"})
+        pics = soup.find_all("img", {"class": "BDE_Image"})
         if len(pics) == 0:
             # 及时清空textEdit中的内容
             self._text_log.append("帖子当前页中未找到图片")

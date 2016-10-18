@@ -37,7 +37,7 @@ class TiebaImage:
     def _get_image(self, page_url, page):
         html = requests.get(page_url, headers=self._header).content.decode('UTF-8')
         soup = BeautifulSoup(html, 'lxml')
-        pics = soup.find_all("img", {"class": "BDE_Image", "pic_type": "0"})
+        pics = soup.find_all("img", {"class": "BDE_Image"})
         if len(pics) == 0:
             print("帖子中未找到图片，请检查url")
         else:

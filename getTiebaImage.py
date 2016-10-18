@@ -20,7 +20,7 @@ class TiebaImage:
             page_url = self._url
             self._get_image(page_url, 1)
         elif max_page is not None:
-            for i in range(1, int(max_page)):
+            for i in range(1, int(max_page) + 1):
                 page_url = self._url + '?pn=' + str(i)
                 self._get_image(page_url, str(i))
 

@@ -6,6 +6,10 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal
 import threading
+import time
+import random
+from PyQt5.QtGui import QIcon, QPalette, QBrush, QPixmap
+
 
 browser_header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:45.0) Gecko/20100101 Firefox/45.0',
@@ -44,9 +48,10 @@ class UI(QWidget):
         self.init_UI()
 
     def init_UI(self):
-        self._label_path = QLabel('Path',self)
-        self._label_URL = QLabel('URL',self)
-        self._label_log = QLabel('Log',self)
+
+        self._label_path = QLabel('Path', self)
+        self._label_URL = QLabel('URL', self)
+        self._label_log = QLabel('Log', self)
 
         self._button_explore = QPushButton('Explore', self)
         self._button_download = QPushButton('Download', self)
@@ -70,6 +75,16 @@ class UI(QWidget):
 
         grid.addWidget(self._label_log, 3, 0)
         grid.addWidget(self._text_log, 3, 1, 5, 1)
+
+        # 设置Icon 和背景图片
+        icon = QIcon()
+        # C++ reference
+        # void QIcon::addPixmap(const QPixmap &pixmap, Mode mode = Normal, State state = Off)
+        icon.addPixmap(QPixmap('icon.jpg'), mode=QIcon.Normal, state=QIcon.On)
+        self.setWindowIcon(icon)
+        palette = QPalette()
+        palette.setBrush(QPalette.Background, QBrush(QPixmap("bg.jpg")))
+        self.setPalette(palette)
 
         self.setLayout(grid)
         self.setGeometry(500, 300, 400, 300)
@@ -136,11 +151,12 @@ class UI(QWidget):
                     f.write(img)
                     # 利用PyQt的信号和槽机制让主线程清空 textEdit中的内容
                     # 防止子线程修改UI导致程序奔溃
-                    if len(self._text_log.toPlainText()) >= 2000:
+                    if len(self._text_log.toPlainText()) >= 3000:
                         self._clear_signal.connect(self._action_clear_log)
                         self._clear_signal.emit()
                     self._text_log.append(img_url + ' saved')
-
+                    t = random.randrange(1, 10)/10
+                    time.sleep(t)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

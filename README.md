@@ -29,11 +29,11 @@
 
 **界面：**
 
-添加了程序的Icon和背景图片，效果如图：
+添加了程序的icon和背景图片，效果如图(icon和背景请根据自己的审美和实际的现实效果进行调整)：
 
 ![gui](http://odh8qadsk.bkt.clouddn.com/20161026_225718.png)
 
-设置Icon和背景的PyQt代码如下：
+设置icon和背景的PyQt代码如下，icon.jpg和bg.jpg与程序放在同一个目录下：
 
 ```python
 # 设置Icon 和背景图片

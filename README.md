@@ -27,12 +27,32 @@
 
   **bug**修复：bug产生的原因是在子线程中操作主UI导致程序crash,修复的方式是利用PyQt的信号和槽机制，当需要操作UI的时候，发射信号交给主线程的槽函数进行处理
 
+**界面：**
+
+添加了程序的Icon和背景图片，效果如图：
+
+![gui](http://odh8qadsk.bkt.clouddn.com/20161026_225718.png)
+
+设置Icon和背景的PyQt代码如下：
+
+```python
+# 设置Icon 和背景图片
+icon = QIcon()
+# C++ reference
+# void QIcon::addPixmap(const QPixmap &pixmap, Mode mode = Normal, State state = Off)
+icon.addPixmap(QPixmap('icon.jpg'), mode=QIcon.Normal, state=QIcon.On)
+self.setWindowIcon(icon)
+palette = QPalette()
+palette.setBrush(QPalette.Background, QBrush(QPixmap("bg.jpg")))
+self.setPalette(palette)
+```
+
 To-do
 
 - [x] 完成在GUI界面中显示log以及getTiebaImage.py类中的错误提示
 - [x] 添加线程支持，防止图片下载时候界面假死
 - [x] 修复bug
-- [ ] 界面美化
+- [x] 界面美化
 
 
 

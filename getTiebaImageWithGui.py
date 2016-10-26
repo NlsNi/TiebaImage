@@ -55,12 +55,17 @@ class UI(QWidget):
 
         self._button_explore = QPushButton('Explore', self)
         self._button_download = QPushButton('Download', self)
+        self._button_explore.setToolTip('Press this button to select the save path')
         self._button_explore.clicked.connect(self._action_explore)
+        self._button_download.setToolTip('Press this button to download images')
         self._button_download.clicked.connect(self._action_download)
 
         self._text_path = QLineEdit(self)
+        self._text_path.setToolTip('Enter the save path here')
         self._text_URL = QLineEdit(self)
+        self._text_URL.setToolTip('Enter the Tieba URL here')
         self._text_log = QTextEdit(self)
+        self._text_log.setToolTip('Logs are shown here')
 
         grid = QGridLayout(self)
         grid.setSpacing(10)
